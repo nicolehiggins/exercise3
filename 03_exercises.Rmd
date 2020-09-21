@@ -161,7 +161,7 @@ Here is the code to read in the data. We do this a little differently than usual
 
 ```{r cache = TRUE}
 data_site <- 
-  "https://www.macalester.edu/~dshuman1/data/112/2014-Q4-Trips-History-Data-Small.rds" 
+  "https://www.macalester.edu/~dshuman1/data/112/2014-Q4-Trips-History-Data.rds" 
 Trips <- readRDS(gzcon(url(data_site)))
 Stations<-read_csv("http://www.macalester.edu/~dshuman1/data/112/DC-Stations.csv")
 ```
@@ -195,7 +195,8 @@ Trips %>%
 Trips %>%
   mutate(day = wday(sdate, label = TRUE)) %>%
   ggplot(aes(x = day)) +
-  geom_bar()
+  geom_bar() +
+  coord_flip()
 ```
   
   10. Facet your graph from exercise 8. by day of the week. Is there a pattern?
@@ -241,7 +242,9 @@ Trips %>%
 Trips %>%
   mutate(time_of_day = hour(sdate) + minute(sdate)/60,
          day_of_week = wday(sdate, label = TRUE),
-         weekend = ifelse(day_of_week == c("Sat", "Sun"), "weekend", "weekday")) %>%
+         weekend = ifelse(day_of_week == c("Sat", "Sun"), 
+                          "weekend", 
+                          "weekday")) %>%
   ggplot(aes(x = time_of_day)) +
   facet_wrap(vars(weekend)) +
   geom_density(aes(fill = client, alpha = .5), color = NA)
@@ -253,7 +256,9 @@ Trips %>%
 Trips %>%
   mutate(time_of_day = hour(sdate) + minute(sdate)/60,
          day_of_week = wday(sdate, label = TRUE),
-         weekend = ifelse(day_of_week == c("Sat", "Sun"), "weekend", "weekday")) %>%
+         weekend = ifelse(day_of_week == c("Sat", "Sun"), 
+                          "weekend", 
+                          "weekday")) %>%
   ggplot(aes(x = time_of_day)) +
   facet_wrap(vars(client)) +
   geom_density(aes(fill = weekend, alpha = .5), color = NA)
@@ -265,13 +270,24 @@ Trips %>%
   15. Use the latitude and longitude variables in `Stations` to make a visualization of the total number of departures from each station in the `Trips` data. Use either color or size to show the variation in number of departures. We will improve this plot next week when we learn about maps!
   
 ```{r}
-
+Trips %>%
+  left_join(Stations, c("sstation" = "name")) %>%
+  group_by(sstation) %>%
+  mutate(total_departure = n()) %>%
+  ggplot(aes(x = long, y = lat, size = total_departure)) +
+  geom_jitter(alpha = .3)
 ```
   
   16. Only 14.4% of the trips in our data are carried out by casual users. Create a plot that shows which area(s) have stations with a much higher percentage of departures by casual users. What patterns do you notice? (Again, we'll improve this next week when we learn about maps).
   
-```{r}
-
+```{r, warning = FALSE}
+Trips %>%
+  left_join(Stations, c("sstation" = "name")) %>%
+  group_by(client) %>%
+  mutate(percent_casual = mean(client == "Casual")) %>%
+  ggplot(aes(x = long, y = lat, color = percent_casual)) +
+  scale_color_gradient(low = "blue", high = "red") +
+  geom_jitter(alpha = .3)
 ```
   
 ### Spatiotemporal patterns
@@ -279,16 +295,33 @@ Trips %>%
   17. Make a table with the ten station-date combinations (e.g., 14th & V St., 2014-10-14) with the highest number of departures, sorted from most departures to fewest. Save this to a new dataset and print out the dataset. Hint: `as_date(sdate)` converts `sdate` from date-time format to date format. 
   
 ```{r}
+Trips %>%
+  mutate(year_date = as_date(sdate)) %>%
+  group_by(year_date, sstation) %>%
+  summarise(n = n()) %>%
+  arrange(desc(n)) %>%
+  head(10) -> top_trips
 
+top_trips
 ```
   
   18. Use a join operation to make a table with only those trips whose departures match those top ten station-date combinations from the previous part.
   
 ```{r}
-
+top_trips %>%
+  left_join(Trips, by = "sstation")
 ```
   
   19. Build on the code from the previous problem (ie. copy that code below and then %>% into the next step.) and group the trips by client type and day of the week (use the name, not the number). Find the proportion of trips by day within each client type (ie. the proportions for all 7 days within each client type add up to 1). Display your results so day of week is a column and there is a column for each client type. Interpret your results.
+  
+```{r}
+#top_trips %>%
+ # left_join(Trips, by = "sstation") %>%
+  #mutate(day_of_week = wday(sdate, label = TRUE)) %>%
+  #group_by(client, day_of_week) %>%
+  #ggplot(aes(x = day_of_week)) +
+  #geom_col(aes(position = "dodge"))
+```
 
 **DID YOU REMEMBER TO GO BACK AND CHANGE THIS SET OF EXERCISES TO THE LARGER DATASET? IF NOT, DO THAT NOW.**
 
