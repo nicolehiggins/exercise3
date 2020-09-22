@@ -16,42 +16,8 @@ output:
 
 ```r
 library(tidyverse)     # for graphing and data cleaning
-```
-
-```
-## ── Attaching packages ───────────────────────────────────────────────────────────────────────────── tidyverse 1.3.0 ──
-```
-
-```
-## ✓ ggplot2 3.3.2     ✓ purrr   0.3.4
-## ✓ tibble  3.0.3     ✓ dplyr   1.0.2
-## ✓ tidyr   1.1.2     ✓ stringr 1.4.0
-## ✓ readr   1.3.1     ✓ forcats 0.5.0
-```
-
-```
-## ── Conflicts ──────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
-## x dplyr::filter() masks stats::filter()
-## x dplyr::lag()    masks stats::lag()
-```
-
-```r
 library(googlesheets4) # for reading googlesheet data
 library(lubridate)     # for date manipulation
-```
-
-```
-## 
-## Attaching package: 'lubridate'
-```
-
-```
-## The following objects are masked from 'package:base':
-## 
-##     date, intersect, setdiff, union
-```
-
-```r
 library(ggthemes)      # for even more plotting themes
 library(geofacet)      # for special faceting with US map layout
 gs4_deauth()           # To not have to authorize each time you knit.
@@ -63,58 +29,18 @@ theme_set(theme_minimal())       # My favorite ggplot() theme :)
 #Lisa's garden data
 garden_harvest <- read_sheet("https://docs.google.com/spreadsheets/d/1DekSazCzKqPS2jnGhKue7tLxRU3GVL1oxi-4bEM5IWw/edit?usp=sharing") %>% 
   mutate(date = ymd(date))
-```
 
-```
-## Reading from "2020_harvest"
-```
-
-```
-## Range "Sheet1"
-```
-
-```r
 # Seeds/plants (and other garden supply) costs
 supply_costs <- read_sheet("https://docs.google.com/spreadsheets/d/1dPVHwZgR9BxpigbHLnA0U99TtVHHQtUzNB9UR0wvb7o/edit?usp=sharing",
   col_types = "ccccnn")
-```
 
-```
-## Reading from "2020_seeds"
-## Range "Sheet1"
-```
-
-```r
 # Planting dates and locations
 plant_date_loc <- read_sheet("https://docs.google.com/spreadsheets/d/11YH0NtXQTncQbUse5wOsTtLSKAiNogjUA21jnX5Pnl4/edit?usp=sharing",
   col_types = "cccnDlc")%>% 
   mutate(date = ymd(date))
-```
 
-```
-## Reading from "seeds_planted"
-## Range "Sheet1"
-```
-
-```
-## Warning in .Primitive("as.double")(x, ...): NAs introduced by coercion
-```
-
-```r
 # Tidy Tuesday data
 kids <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-09-15/kids.csv')
-```
-
-```
-## Parsed with column specification:
-## cols(
-##   state = col_character(),
-##   variable = col_character(),
-##   year = col_double(),
-##   raw = col_double(),
-##   inf_adj = col_double(),
-##   inf_adj_perchild = col_double()
-## )
 ```
 
 ## Setting up on GitHub!
@@ -165,10 +91,6 @@ garden_harvest %>%
               values_fill = 0)
 ```
 
-```
-## `summarise()` regrouping output by 'vegetable' (override with `.groups` argument)
-```
-
 <div data-pagedtable="false">
   <script data-pagedtable-source type="application/json">
 {"columns":[{"label":["vegetable"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Sat"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Mon"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["Tue"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["Thu"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["Fri"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["Sun"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["Wed"],"name":[8],"type":["dbl"],"align":["right"]}],"data":[{"1":"asparagus","2":"0.04409245","3":"0.00000000","4":"0.000000000","5":"0.00000000","6":"0.00000000","7":"0.00000000","8":"0.00000000"},{"1":"basil","2":"0.41005981","3":"0.06613868","4":"0.110231131","5":"0.02645547","6":"0.46738000","7":"0.00000000","8":"0.00000000"},{"1":"beans","2":"4.70907392","3":"6.50804598","4":"4.387199017","5":"3.39291422","6":"1.52559885","7":"1.52780348","8":"4.08296110"},{"1":"beets","2":"0.37919509","3":"0.67240990","4":"0.158732829","5":"11.89173442","6":"0.02425085","7":"0.32187490","8":"0.18298368"},{"1":"broccoli","2":"0.00000000","3":"0.82011962","4":"0.000000000","5":"0.00000000","6":"0.00000000","7":"0.00000000","8":"0.70768386"},{"1":"carrots","2":"2.33028611","3":"0.87082594","4":"0.352739619","5":"2.67420724","6":"2.13848394","7":"0.00000000","8":"0.00000000"},{"1":"chives","2":"0.00000000","3":"0.00000000","4":"0.000000000","5":"0.00000000","6":"0.00000000","7":"0.00000000","8":"0.01763698"},{"1":"cilantro","2":"0.03747858","3":"0.00000000","4":"0.004409245","5":"0.00000000","6":"0.07275255","7":"0.00000000","8":"0.00000000"},{"1":"corn","2":"1.31615971","3":"0.75839018","4":"0.727525465","5":"0.00000000","6":"3.44802978","7":"1.45725555","8":"5.30211741"},{"1":"cucumbers","2":"9.64081473","3":"4.77521260","4":"10.046465288","5":"3.30693393","6":"7.42957824","7":"3.10410865","8":"5.30652665"},{"1":"edamame","2":"4.68923232","3":"0.00000000","4":"1.402139987","5":"0.00000000","6":"0.00000000","7":"0.00000000","8":"0.00000000"},{"1":"hot peppers","2":"0.00000000","3":"1.25883952","4":"0.141095848","5":"0.00000000","6":"0.00000000","7":"0.00000000","8":"0.06834330"},{"1":"jalapeño","2":"0.93916924","3":"0.43431066","4":"0.548951033","5":"0.22487151","6":"1.29411348","7":"0.00000000","8":"0.09479877"},{"1":"kale","2":"1.49032489","3":"1.76590272","4":"0.282191696","5":"0.00000000","6":"0.00000000","7":"0.38139971","8":"0.61729433"},{"1":"kohlrabi","2":"0.00000000","3":"0.00000000","4":"0.000000000","5":"0.42108292","6":"0.00000000","7":"0.00000000","8":"0.00000000"},{"1":"lettuce","2":"1.10672056","3":"2.45815422","4":"0.917123011","5":"2.45154036","6":"1.80117668","7":"1.15963150","8":"1.14860839"},{"1":"onions","2":"1.34041055","3":"0.50926783","4":"0.707683862","5":"0.60186198","6":"0.07275255","7":"0.26014547","8":"0.00000000"},{"1":"peas","2":"2.85278167","3":"4.63411675","4":"2.067936019","5":"3.39732346","6":"0.93696461","7":"2.05691291","8":"1.08026508"},{"1":"peppers","2":"1.38229838","3":"0.25353160","4":"1.444027817","5":"0.70988848","6":"0.14991434","7":"0.00000000","8":"0.94798773"},{"1":"potatoes","2":"2.15612092","3":"0.97003395","4":"0.000000000","5":"1.66669470","6":"0.00000000","7":"0.00000000","8":"4.57018270"},{"1":"pumpkins","2":"92.68894889","3":"0.00000000","4":"31.856796886","5":"0.00000000","6":"0.00000000","7":"0.00000000","8":"0.00000000"},{"1":"radish","2":"0.23148538","3":"0.19621141","4":"0.094798773","5":"0.14770972","6":"0.19400679","7":"0.08157104","8":"0.00000000"},{"1":"raspberries","2":"0.53351867","3":"0.13007273","4":"0.335102639","5":"0.28880556","6":"0.57099726","7":"0.00000000","8":"0.00000000"},{"1":"spinach","2":"0.26014547","3":"0.14770972","4":"0.496040090","5":"0.23369000","6":"0.19621141","7":"0.48722160","8":"0.21384839"},{"1":"squash","2":"56.22228610","3":"0.00000000","4":"18.468123703","5":"0.00000000","6":"0.00000000","7":"0.00000000","8":"0.00000000"},{"1":"strawberries","2":"0.16975594","3":"0.47840311","4":"0.000000000","5":"0.08818490","6":"0.48722160","7":"0.08157104","8":"0.00000000"},{"1":"Swiss chard","2":"0.00000000","3":"1.07365122","4":"0.070547924","5":"2.23107809","6":"0.56438339","7":"0.73634396","8":"0.71429773"},{"1":"tomatoes","2":"25.94399901","3":"9.70915803","4":"48.750820037","5":"34.51777639","6":"58.67603108","7":"63.68493368","8":"31.55917283"},{"1":"zucchini","2":"3.41496044","3":"12.19597234","4":"16.468530985","5":"5.74965580","6":"18.72165530","7":"12.23565555","8":"2.04148055"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
@@ -184,10 +106,6 @@ garden_harvest %>%
   summarise(tot_harvest_lbs = sum(weight)/453.59237) %>%
   left_join(plant_date_loc,
             by = "variety")
-```
-
-```
-## `summarise()` ungrouping output (override with `.groups` argument)
 ```
 
 <div data-pagedtable="false">
@@ -244,11 +162,6 @@ garden_harvest %>%
   filter(str_detect(variety, c("ar", "er")))
 ```
 
-```
-## Warning in stri_detect_regex(string, pattern, negate = negate, opts_regex =
-## opts(pattern)): longer object length is not a multiple of shorter object length
-```
-
 <div data-pagedtable="false">
   <script data-pagedtable-source type="application/json">
 {"columns":[{"label":["variety"],"name":[1],"type":["chr"],"align":["left"]}],"data":[{"1":"Farmer's Market Blend"},{"1":"Super Sugar Snap"},{"1":"asparagus"},{"1":"mustard greens"},{"1":"variety"},{"1":"Better Boy"},{"1":"volunteers"},{"1":"Classic Slenderette"},{"1":"Cinderella's Carraige"},{"1":"New England Sugar"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
@@ -282,17 +195,6 @@ data_site <-
   "https://www.macalester.edu/~dshuman1/data/112/2014-Q4-Trips-History-Data.rds" 
 Trips <- readRDS(gzcon(url(data_site)))
 Stations<-read_csv("http://www.macalester.edu/~dshuman1/data/112/DC-Stations.csv")
-```
-
-```
-## Parsed with column specification:
-## cols(
-##   name = col_character(),
-##   lat = col_double(),
-##   long = col_double(),
-##   nbBikes = col_double(),
-##   nbEmptyDocks = col_double()
-## )
 ```
 
 **NOTE:** The `Trips` data table is a random subset of 10,000 trips from the full quarterly data. Start with this small data table to develop your analysis commands. **When you have this working well, you should access the full data set of more than 600,000 events by removing `-Small` from the name of the `data_site`.**
@@ -398,28 +300,6 @@ Trips %>%
   geom_density(aes(fill = client, alpha = .5), color = NA)
 ```
 
-```
-## Warning: Problem with `mutate()` input `weekend`.
-## ℹ longer object length is not a multiple of shorter object length
-## ℹ Input `weekend` is `ifelse(day_of_week == c("Sat", "Sun"), "weekend", "weekday")`.
-```
-
-```
-## Warning in `==.default`(day_of_week, c("Sat", "Sun")): longer object length is
-## not a multiple of shorter object length
-```
-
-```
-## Warning: Problem with `mutate()` input `weekend`.
-## ℹ longer object length is not a multiple of shorter object length
-## ℹ Input `weekend` is `ifelse(day_of_week == c("Sat", "Sun"), "weekend", "weekday")`.
-```
-
-```
-## Warning in is.na(e1) | is.na(e2): longer object length is not a multiple of
-## shorter object length
-```
-
 ![](03_exercises_files/figure-html/unnamed-chunk-13-1.png)<!-- -->
   
   14. Change the graph from the previous problem to facet on `client` and fill with `weekday`. What information does this graph tell you that the previous didn't? Is one graph better than the other?
@@ -437,28 +317,6 @@ Trips %>%
   geom_density(aes(fill = weekend, alpha = .5), color = NA)
 ```
 
-```
-## Warning: Problem with `mutate()` input `weekend`.
-## ℹ longer object length is not a multiple of shorter object length
-## ℹ Input `weekend` is `ifelse(day_of_week == c("Sat", "Sun"), "weekend", "weekday")`.
-```
-
-```
-## Warning in `==.default`(day_of_week, c("Sat", "Sun")): longer object length is
-## not a multiple of shorter object length
-```
-
-```
-## Warning: Problem with `mutate()` input `weekend`.
-## ℹ longer object length is not a multiple of shorter object length
-## ℹ Input `weekend` is `ifelse(day_of_week == c("Sat", "Sun"), "weekend", "weekday")`.
-```
-
-```
-## Warning in is.na(e1) | is.na(e2): longer object length is not a multiple of
-## shorter object length
-```
-
 ![](03_exercises_files/figure-html/unnamed-chunk-14-1.png)<!-- -->
   **This graph focuses more on the difference between registered clients and casual ones. I prefer the prior where it was sorted by weekday as the discrepencies are clearer.**
   
@@ -474,10 +332,6 @@ Trips %>%
   mutate(total_departure = n()) %>%
   ggplot(aes(x = long, y = lat, size = total_departure)) +
   geom_jitter(alpha = .3)
-```
-
-```
-## Warning: Removed 11101 rows containing missing values (geom_point).
 ```
 
 ![](03_exercises_files/figure-html/unnamed-chunk-15-1.png)<!-- -->
@@ -509,13 +363,7 @@ Trips %>%
   summarise(n = n()) %>%
   arrange(desc(n)) %>%
   head(10) -> top_trips
-```
 
-```
-## `summarise()` regrouping output by 'year_date' (override with `.groups` argument)
-```
-
-```r
 top_trips
 ```
 
@@ -543,13 +391,23 @@ top_trips %>%
   
 
 ```r
-#top_trips %>%
- # left_join(Trips, by = "sstation") %>%
-  #mutate(day_of_week = wday(sdate, label = TRUE)) %>%
-  #group_by(client, day_of_week) %>%
-  #ggplot(aes(x = day_of_week)) +
-  #geom_col(aes(position = "dodge"))
+top_trips %>%
+  left_join(Trips, by = "sstation") %>%
+  mutate(day_of_week = wday(sdate, label = TRUE)) %>%
+  group_by(client, day_of_week) %>%
+  summarise(daily_trips = n()) %>%
+  group_by(client) %>% #try deleting
+  mutate(daily_prop = daily_trips/sum(daily_trips)) %>% #try avg
+  pivot_wider(id_cols = day_of_week,
+              names_from = client,
+              values_from = daily_prop)
 ```
+
+<div data-pagedtable="false">
+  <script data-pagedtable-source type="application/json">
+{"columns":[{"label":["day_of_week"],"name":[1],"type":["ord"],"align":["right"]},{"label":["Casual"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Registered"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"Sun","2":"0.20519510","3":"0.07967613"},{"1":"Mon","2":"0.13294011","3":"0.17167332"},{"1":"Tue","2":"0.10514973","3":"0.17167332"},{"1":"Wed","2":"0.08064882","3":"0.18117813"},{"1":"Thu","2":"0.11127495","3":"0.17261206"},{"1":"Fri","2":"0.13781760","3":"0.15025816"},{"1":"Sat","2":"0.22697368","3":"0.07292889"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
 
 **DID YOU REMEMBER TO GO BACK AND CHANGE THIS SET OF EXERCISES TO THE LARGER DATASET? IF NOT, DO THAT NOW.**
 
